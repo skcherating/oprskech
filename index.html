@@ -1,9 +1,20 @@
+Berikut adalah kod yang telah dikemaskini sepenuhnya mengikut spesifikasi terperinci anda.
+
+**Perubahan Teknikal Terkini:**
+
+1. **Logo TS25:** Dikecilkan kepada **70px** (Logo Sekolah kekal 90px untuk keseimbangan visual).
+2. **Margin Kiri & Kanan:** Ditetapkan tepat kepada **2.7cm (27mm)**.
+3. **Pelarasan "One Page":** Memandangkan margin tepi semakin luas (ruang menulis semakin sempit), saya telah **mengecilkan sedikit font (ke 10pt)** dan **mengurangkan tinggi gambar (ke 135px)** supaya laporan tidak "terbabas" ke muka surat kedua akibat teks yang panjang.
+
+Sila **Copy & Paste** semua kod ini:
+
+```html
 <!DOCTYPE html>
 <html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPR SK Cherating (Perfect Fit)</title>
+    <title>OPR SK Cherating (2.7cm Margin)</title>
     <style>
         /* --- PAPARAN SKRIN (BORANG INPUT) --- */
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #dfe6e9; margin: 0; padding: 20px; }
@@ -39,42 +50,49 @@
         #laporan-output { display: none; }
 
         @media print {
-            @page { size: A4 portrait; margin: 10mm; } /* Margin standard */
-            html, body { margin: 0; padding: 0; background: white; height: 99%; overflow: hidden; } /* Cegah overflow */
+            @page { 
+                size: A4 portrait; 
+                /* Top/Bottom: 10mm, Left/Right: 27mm (2.7cm) */
+                margin: 10mm 27mm; 
+            } 
+            
+            html, body { margin: 0; padding: 0; background: white; height: 99%; overflow: hidden; } 
             .container, .note, h1 { display: none !important; }
 
             #laporan-output { display: block !important; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-            /* HEADER: Optimized spacing */
-            .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 5px; padding-bottom: 5px; } /* Jarak dikurangkan */
+            /* HEADER */
+            .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
             .header-table td { border: none !important; vertical-align: middle; }
             
             .logo-cell { width: 20%; text-align: center; }
             
-            /* LOGO SIZING */
+            /* LOGO SIZING (UPDATED) */
             .logo-img-school { 
-                height: 90px; /* Logo Sekolah Besar Sikit */
+                height: 90px; /* Logo Sekolah Kekal */
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
             .logo-img-ts25 { 
-                height: 80px; /* TS25 DIKECILKAN 10% (80px vs 90px) */
+                height: 70px; /* LOGO TS25 DIKECILKAN KE 70PX */
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
 
-            /* CONTENT TABLE: Compact spacing */
-            .content-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 10.5pt; } /* Font kecil sikit */
+            /* CONTENT TABLE */
+            /* Font size dikurangkan ke 10pt sebab margin tepi luas (2.7cm) */
+            .content-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 10pt; } 
             .content-table td { 
                 border: 1px solid black; 
-                padding: 4px 6px; /* Padding dikurangkan utk jimat ruang */
+                padding: 4px 6px; 
                 vertical-align: top; 
                 line-height: 1.25; 
             }
-            .label-col { background-color: #f0f0f0 !important; font-weight: bold; width: 20%; -webkit-print-color-adjust: exact; }
+            .label-col { background-color: #f0f0f0 !important; font-weight: bold; width: 22%; -webkit-print-color-adjust: exact; }
 
-            /* IMAGES: Height reduced for fit */
+            /* IMAGES */
+            /* Tinggi dikurangkan ke 135px untuk pastikan muat 1 page */
             .pdf-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
             .pdf-img-box { 
-                height: 140px; /* DIKURANGKAN DARI 150px SUPAYA MUAT A4 */
+                height: 135px; 
                 border: 1px solid #000; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden; 
             }
             .pdf-img-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -82,17 +100,17 @@
             /* SIGNATURE SECTION */
             .signature-section { 
                 display: flex; justify-content: space-between; 
-                margin-top: 15px; /* Jarak dikurangkan */
-                font-family: Arial, sans-serif; font-size: 10.5pt; page-break-inside: avoid; 
+                margin-top: 20px; 
+                font-family: Arial, sans-serif; font-size: 10pt; page-break-inside: avoid; 
             }
-            .sig-box { width: 45%; text-align: center; }
+            .sig-box { width: 48%; text-align: center; } /* Lebar box ditambah sikit sebab margin luas */
             
             .sig-placeholder {
-                height: 55px; /* Ruang sign */
+                height: 50px; /* Ruang sign */
                 display: flex; align-items: flex-end; justify-content: center;
                 margin-bottom: 0px;
             }
-            .sig-img-final { max-height: 50px; max-width: 140px; display: none; }
+            .sig-img-final { max-height: 50px; max-width: 130px; display: none; }
 
             .sig-line { margin-top: 0; margin-bottom: 5px; font-weight: bold; color: #000; }
         }
@@ -105,7 +123,8 @@
     <div class="note">
         <strong>PENTING:</strong><br>
         1. Fail Logo: <strong>logo_sekolah.jpg</strong> & <strong>logo_ts25.png</strong><br>
-        2. Set Print Scale kepada <strong>Default (100%)</strong>.
+        2. Set Print Scale: <strong>Default (100%)</strong>.<br>
+        3. Margin 2.7cm telah disetkan automatik.
     </div>
 
     <div class="section-title">1. Maklumat Program</div>
@@ -268,3 +287,5 @@
 
 </body>
 </html>
+
+```
