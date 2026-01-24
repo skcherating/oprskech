@@ -9,8 +9,21 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #dfe6e9; margin: 0; padding: 20px; }
         .container { max-width: 650px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        h1 { text-align: center; color: #2d3436; margin-bottom: 5px; font-size: 20px; }
-        .note { background: #ffeaa7; color: #d63031; padding: 10px; border-radius: 5px; font-size: 13px; text-align: center; border: 1px solid #fdcb6e; margin-bottom: 20px; }
+        h1 { text-align: center; color: #2d3436; margin-bottom: 5px; font-size: 22px; text-transform: uppercase; }
+        
+        /* MESEJ ALU-ALUAN (UPDATED) */
+        .note { 
+            background: #e3f2fd; /* Biru muda yang mesra */
+            color: #0d47a1; /* Biru gelap */
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold;
+            text-align: center; 
+            border: 1px solid #90caf9; 
+            margin-bottom: 25px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
         
         label { display: block; font-weight: bold; margin-top: 10px; font-size: 14px; color: #2d3436; }
         input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #b2bec3; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
@@ -56,7 +69,7 @@
             
             .logo-cell { width: 20%; text-align: center; }
             
-            .logo-img-school { height: 90px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
+            .logo-img-school { height: 70px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
             .logo-img-ts25 { height: 70px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
 
             /* CONTENT TABLE */
@@ -90,17 +103,29 @@
             .sig-img-final { max-height: 50px; max-width: 140px; display: none; }
 
             .sig-line { margin-top: 0; margin-bottom: 5px; font-weight: bold; color: #000; }
+
+            /* WATERMARK (FIXED BOTTOM) */
+            .watermark {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                text-align: right;
+                font-size: 8pt;
+                color: #ccc;
+                font-style: italic;
+                font-family: monospace;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📝 OPR Sekolah Kebangsaan Cherating</h1>
+    <h1>📝 OPR SEKOLAH KEBANGSAAN CHERATING</h1>
+    
     <div class="note">
-        <strong>PENTING:</strong><br>
-        1. Fail Logo: <strong>logo_sekolah.jpg</strong> & <strong>logo_ts25.png</strong><br>
-        2. Set Print Scale: <strong>Default (100%)</strong>.
+        Selamat Datang ke Laman OPR Sekolah Kebangsaan Cherating
     </div>
 
     <div class="section-title">1. Maklumat Program</div>
@@ -220,6 +245,8 @@
             <p id="out_sah_jawatan" style="margin:0;"></p>
         </div>
     </div>
+
+    <div class="watermark">codedbythemanis</div>
 </div>
 
 <script>
