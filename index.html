@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPR Sekolah Kebangsaan Cherating</title>
+    <title>OPR Sekolah Kebangsaan Sungai Ular</title>
     <style>
         /* --- PAPARAN SKRIN (BORANG INPUT) --- */
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #dfe6e9; margin: 0; padding: 20px; }
@@ -17,11 +17,12 @@
             color: #0d47a1; 
             padding: 15px; 
             border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: bold;
+            font-size: 18px; 
+            font-weight: bold; 
             text-align: center; 
             border: 1px solid #90caf9; 
-            margin-bottom: 25px; 
+            margin-bottom: 25px;
+            text-transform: uppercase;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
@@ -64,28 +65,38 @@
             #laporan-output { display: block !important; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
             /* HEADER */
-            .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
+            .header-table { width: 100%; border-bottom: 2px solid #000; margin-bottom: 5px; padding-bottom: 5px; }
             .header-table td { border: none !important; vertical-align: middle; }
             
             .logo-cell { width: 20%; text-align: center; }
             
-            /* --- LOGO SIZING --- */
+            /* LOGO SIZE */
             .logo-img-school { 
-                height: 90px; /* Logo Sekolah 90px */
+                height: 70px; 
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
             .logo-img-ts25 { 
-                height: 65px; /* UPDATED: Logo TS25 65px */
+                height: 65px; 
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
 
             /* CONTENT TABLE */
-            .content-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11pt; } 
-            .content-table td { border: 1px solid black; padding: 5px 6px; vertical-align: top; line-height: 1.3; }
+            .content-table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                font-family: Arial, sans-serif; 
+                font-size: 9.5pt; 
+            } 
+            .content-table td { 
+                border: 1px solid black; 
+                padding: 3px 5px; 
+                vertical-align: top; 
+                line-height: 1.2; 
+            }
             .label-col { background-color: #f0f0f0 !important; font-weight: bold; width: 22%; -webkit-print-color-adjust: exact; }
 
             /* IMAGES SECTION */
-            .pdf-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
+            .pdf-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
             
             .pdf-img-box { 
                 height: 150px; 
@@ -103,30 +114,56 @@
             }
 
             /* SIGNATURE SECTION */
-            .signature-section { display: flex; justify-content: space-between; margin-top: 20px; font-family: Arial, sans-serif; font-size: 11pt; page-break-inside: avoid; }
+            .signature-section { 
+                display: flex; justify-content: space-between; 
+                margin-top: 15px; 
+                font-family: Arial, sans-serif; 
+                font-size: 10pt; 
+                page-break-inside: avoid; 
+            }
             .sig-box { width: 45%; text-align: center; }
             
-            .sig-placeholder { height: 55px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 0px; }
-            .sig-img-final { max-height: 50px; max-width: 140px; display: none; }
+            .sig-placeholder { height: 50px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 0px; }
+            .sig-img-final { max-height: 45px; max-width: 130px; display: none; }
 
             .sig-line { margin-top: 0; margin-bottom: 5px; font-weight: bold; color: #000; }
+            
+            /* WATERMARK */
+            .watermark {
+                position: fixed;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                text-align: right;
+                font-size: 8pt;
+                color: #ccc;
+                font-style: italic;
+                font-family: monospace;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📝 OPR SEKOLAH KEBANGSAAN CHERATING</h1>
+    <h1>📝 OPR SEKOLAH KEBANGSAAN SUNGAI ULAR</h1>
     
     <div class="note">
-        Selamat Datang ke Laman OPR Sekolah Kebangsaan Cherating
+        Laman OPR Sekolah Kebangsaan Sungai Ular
     </div>
 
     <div class="section-title">1. Maklumat Program</div>
     <label>Nama Program</label><input type="text" id="in_nama">
     <div style="display:flex; gap:10px;">
         <div style="flex:1"><label>Anjuran</label><input type="text" id="in_anjuran"></div>
-        <div style="flex:1"><label>Tarikh</label><input type="date" id="in_tarikh"></div>
+        <div style="flex:1">
+            <label>Tarikh (Mula - Tamat)</label>
+            <div style="display:flex; gap:5px;">
+                <input type="date" id="in_tarikh_mula" title="Tarikh Mula">
+                <span style="align-self:center; font-weight:bold;">-</span>
+                <input type="date" id="in_tarikh_tamat" title="Tarikh Tamat (Jika ada)">
+            </div>
+        </div>
     </div>
     <div style="display:flex; gap:10px;">
         <div style="flex:1"><label>Masa</label><input type="text" id="in_masa"></div>
@@ -198,7 +235,7 @@
             </td>
             <td style="text-align: center;">
                 <h2 style="margin:0; font-size:16pt; text-transform:uppercase;">LAPORAN ONE PAGE REPORT</h2>
-                <h3 style="margin:5px 0 0 0; font-size:14pt; color: #00008B;">SEKOLAH KEBANGSAAN CHERATING</h3>
+                <h3 style="margin:5px 0 0 0; font-size:14pt; color: #00008B;">SEKOLAH KEBANGSAAN SUNGAI ULAR</h3>
             </td>
             <td class="logo-cell">
                 <img src="logo_sekolah.jpg" class="logo-img-school" alt="Sekolah" onerror="this.style.display='none'">
@@ -239,6 +276,8 @@
             <p id="out_sah_jawatan" style="margin:0;"></p>
         </div>
     </div>
+
+    <div class="watermark">codedbytheamanis</div>
 </div>
 
 <script>
@@ -262,16 +301,40 @@
     function handleFileSig(input, role) { if (input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { var prev = document.getElementById('prev-file-'+role); prev.src = e.target.result; prev.style.display = 'block'; }; reader.readAsDataURL(input.files[0]); } }
     function preview(input, index) { if (input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { document.getElementById('prev' + index).src = e.target.result; document.getElementById('prev' + index).style.display = 'block'; document.getElementById('box' + index).innerHTML = '<img src="'+e.target.result+'">'; }; reader.readAsDataURL(input.files[0]); } }
     
+    // FORMAT TARIKH YYYY-MM-DD -> DD/MM/YYYY
+    function formatDate(dateStr) {
+        if (!dateStr) return "";
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+        return dateStr;
+    }
+
     function cetakPDF() {
-        var fields = ['nama', 'anjuran', 'tarikh', 'masa', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
+        var fields = ['nama', 'anjuran', 'masa', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
         fields.forEach(id => { document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value; });
+        
+        // PROCESS DATE (Dual Date Logic)
+        const dateStart = document.getElementById('in_tarikh_mula').value;
+        const dateEnd = document.getElementById('in_tarikh_tamat').value;
+        let finalDateDisplay = formatDate(dateStart);
+        
+        if (dateEnd) {
+            finalDateDisplay += " - " + formatDate(dateEnd);
+        }
+        document.getElementById('out_tarikh').innerText = finalDateDisplay;
+
+        // SIGNATURES
         document.getElementById('out_sedia_nama').innerText = "(" + (document.getElementById('in_sedia_nama').value || "                     ") + ")";
         document.getElementById('out_sedia_jawatan').innerText = document.getElementById('in_sedia_jawatan').value;
         document.getElementById('out_sah_nama').innerText = "(" + (document.getElementById('in_sah_nama').value || "                     ") + ")";
         document.getElementById('out_sah_jawatan').innerText = document.getElementById('in_sah_jawatan').value;
         processSignature('sedia'); processSignature('sah');
+        
         window.print();
     }
+
     function processSignature(role) {
         var outputImg = document.getElementById('out_sig_img_' + role); var finalSrc = "";
         if (sigMode[role] === 'draw') { var canvas = document.getElementById('canvas-' + role); finalSrc = canvas.toDataURL(); } 
