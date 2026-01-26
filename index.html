@@ -30,18 +30,35 @@
         input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #b2bec3; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         textarea { height: 60px; resize: none; }
         
-        /* Styling khusus untuk input masa/tarikh dalam satu baris */
+        .section-title { margin-top: 25px; padding-bottom: 5px; border-bottom: 2px solid #0984e3; font-weight: bold; color: #0984e3; font-size: 16px; }
+
+        /* Styling Input Khas (Row) */
         .row-inputs { display: flex; gap: 10px; }
         .col-input { flex: 1; }
         .dual-input { display: flex; gap: 5px; align-items: center; }
-        
-        .section-title { margin-top: 25px; padding-bottom: 5px; border-bottom: 2px solid #0984e3; font-weight: bold; color: #0984e3; font-size: 16px; }
 
         /* Grid Gambar Upload */
         .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
-        .upload-box { border: 2px dashed #b2bec3; padding: 5px; text-align: center; background: #f5f6fa; border-radius: 5px; }
+        .upload-box { border: 2px dashed #b2bec3; padding: 5px; text-align: center; background: #f5f6fa; border-radius: 5px; position: relative; }
         .upload-box input { font-size: 10px; width: 100%; }
+        /* Preview Image */
         .upload-box img { width: 100%; height: 60px; object-fit: cover; display: none; margin-top: 5px; border: 1px solid #ddd; }
+        
+        /* DELETE BUTTON STYLE */
+        .btn-del-img {
+            background: #ff7675;
+            color: white;
+            border: none;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-top: 5px;
+            width: 100%;
+            display: none; /* Hidden by default */
+            font-weight: bold;
+        }
+        .btn-del-img:hover { background: #d63031; }
 
         /* Signature UI */
         .sign-wrapper { background: #f1f2f6; border: 1px solid #ced6e0; padding: 10px; border-radius: 5px; margin-top: 10px; }
@@ -76,15 +93,15 @@
             
             /* LOGO SIZE */
             .logo-img-school { 
-                height: 85px; 
+                height: 85px; /* Sekolah 85px */
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
             .logo-img-ts25 { 
-                height: 65px; 
+                height: 65px; /* TS25 65px */
                 width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
             }
 
-            /* CONTENT TABLE - FONT SIZE 9pt */
+            /* CONTENT TABLE - FONT 9pt */
             .content-table { 
                 width: 100%; 
                 border-collapse: collapse; 
@@ -110,13 +127,14 @@
                 overflow: hidden; 
             }
             
+            /* Fill Box (No Crop) */
             .pdf-img-box img { 
                 width: 100%; 
                 height: 100%; 
                 object-fit: fill; 
             }
 
-            /* SIGNATURE SECTION - FONT SIZE 9pt */
+            /* SIGNATURE SECTION - FONT 9pt */
             .signature-section { 
                 display: flex; justify-content: space-between; 
                 margin-top: 15px; 
@@ -177,9 +195,21 @@
 
     <div class="section-title">2. Gambar Laporan (Maks 3)</div>
     <div class="upload-grid">
-        <div class="upload-box"><input type="file" onchange="preview(this, 1)"><img id="prev1"></div>
-        <div class="upload-box"><input type="file" onchange="preview(this, 2)"><img id="prev2"></div>
-        <div class="upload-box"><input type="file" onchange="preview(this, 3)"><img id="prev3"></div>
+        <div class="upload-box">
+            <input type="file" id="file1" onchange="preview(this, 1)">
+            <img id="prev1">
+            <button id="del1" class="btn-del-img" onclick="hapusGambar(1)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file2" onchange="preview(this, 2)">
+            <img id="prev2">
+            <button id="del2" class="btn-del-img" onclick="hapusGambar(2)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file3" onchange="preview(this, 3)">
+            <img id="prev3">
+            <button id="del3" class="btn-del-img" onclick="hapusGambar(3)">🗑️ Hapus</button>
+        </div>
     </div>
 
     <div class="section-title">3. Pengesahan & Tandatangan</div>
@@ -297,7 +327,41 @@
     var sigMode = { sedia: 'draw', sah: 'draw' };
     function switchTab(role, mode) { sigMode[role] = mode; document.getElementById('area-'+role+'-draw').style.display = (mode === 'draw') ? 'block' : 'none'; document.getElementById('area-'+role+'-upload').style.display = (mode === 'upload') ? 'block' : 'none'; }
     function handleFileSig(input, role) { if (input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { var prev = document.getElementById('prev-file-'+role); prev.src = e.target.result; prev.style.display = 'block'; }; reader.readAsDataURL(input.files[0]); } }
-    function preview(input, index) { if (input.files && input.files[0]) { var reader = new FileReader(); reader.onload = function(e) { document.getElementById('prev' + index).src = e.target.result; document.getElementById('prev' + index).style.display = 'block'; document.getElementById('box' + index).innerHTML = '<img src="'+e.target.result+'">'; }; reader.readAsDataURL(input.files[0]); } }
+    
+    // FUNGSI PREVIEW GAMBAR
+    function preview(input, index) { 
+        if (input.files && input.files[0]) { 
+            var reader = new FileReader(); 
+            reader.onload = function(e) { 
+                // Tunjuk preview di borang
+                document.getElementById('prev' + index).src = e.target.result; 
+                document.getElementById('prev' + index).style.display = 'block'; 
+                // Tunjuk butang hapus
+                document.getElementById('del' + index).style.display = 'block'; 
+                // Set gambar ke dalam template PDF
+                document.getElementById('box' + index).innerHTML = '<img src="'+e.target.result+'">'; 
+            }; 
+            reader.readAsDataURL(input.files[0]); 
+        } 
+    }
+
+    // FUNGSI HAPUS GAMBAR
+    function hapusGambar(index) {
+        // Reset input file
+        var input = document.getElementById('file' + index);
+        input.value = ""; 
+        
+        // Sembunyikan preview
+        var prev = document.getElementById('prev' + index);
+        prev.src = "";
+        prev.style.display = 'none';
+
+        // Sembunyikan butang hapus
+        document.getElementById('del' + index).style.display = 'none';
+
+        // Kosongkan kotak dalam PDF
+        document.getElementById('box' + index).innerHTML = "";
+    }
     
     // FORMAT TARIKH YYYY-MM-DD -> DD/MM/YYYY
     function formatDate(dateStr) {
@@ -317,23 +381,22 @@
         var minutes = split[1];
         var ampm = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12;
-        hours = hours ? hours : 12; // Jam '0' jadi '12'
+        hours = hours ? hours : 12; 
         return hours + ':' + minutes + ' ' + ampm;
     }
 
     function cetakPDF() {
-        // MAPPING STANDARD FIELDS
         var fields = ['nama', 'anjuran', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
         fields.forEach(id => { document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value; });
         
-        // PROCESS DATE (Dual Date Logic)
+        // PROCESS DATE
         const dateStart = document.getElementById('in_tarikh_mula').value;
         const dateEnd = document.getElementById('in_tarikh_tamat').value;
         let finalDateDisplay = formatDate(dateStart);
         if (dateEnd) { finalDateDisplay += " - " + formatDate(dateEnd); }
         document.getElementById('out_tarikh').innerText = finalDateDisplay;
 
-        // PROCESS TIME (Dual Time Logic)
+        // PROCESS TIME
         const timeStart = document.getElementById('in_masa_mula').value;
         const timeEnd = document.getElementById('in_masa_tamat').value;
         let finalTimeDisplay = formatTime(timeStart);
