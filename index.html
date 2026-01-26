@@ -30,13 +30,17 @@
         input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #b2bec3; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         textarea { height: 60px; resize: none; }
         
+        /* Styling khusus untuk input masa/tarikh dalam satu baris */
+        .row-inputs { display: flex; gap: 10px; }
+        .col-input { flex: 1; }
+        .dual-input { display: flex; gap: 5px; align-items: center; }
+        
         .section-title { margin-top: 25px; padding-bottom: 5px; border-bottom: 2px solid #0984e3; font-weight: bold; color: #0984e3; font-size: 16px; }
 
         /* Grid Gambar Upload */
         .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
         .upload-box { border: 2px dashed #b2bec3; padding: 5px; text-align: center; background: #f5f6fa; border-radius: 5px; }
         .upload-box input { font-size: 10px; width: 100%; }
-        /* Preview di borang kekal cover supaya cantik */
         .upload-box img { width: 100%; height: 60px; object-fit: cover; display: none; margin-top: 5px; border: 1px solid #ddd; }
 
         /* Signature UI */
@@ -106,7 +110,6 @@
                 overflow: hidden; 
             }
             
-            /* Fill Box (No Crop) */
             .pdf-img-box img { 
                 width: 100%; 
                 height: 100%; 
@@ -118,7 +121,7 @@
                 display: flex; justify-content: space-between; 
                 margin-top: 15px; 
                 font-family: Arial, sans-serif; 
-                font-size: 9pt; /* UPDATED: Font dikecilkan ke 9pt */
+                font-size: 9pt; 
                 page-break-inside: avoid; 
             }
             .sig-box { width: 45%; text-align: center; }
@@ -141,21 +144,31 @@
 
     <div class="section-title">1. Maklumat Program</div>
     <label>Nama Program</label><input type="text" id="in_nama">
-    <div style="display:flex; gap:10px;">
-        <div style="flex:1"><label>Anjuran</label><input type="text" id="in_anjuran"></div>
-        <div style="flex:1">
+    
+    <div class="row-inputs">
+        <div class="col-input"><label>Anjuran</label><input type="text" id="in_anjuran"></div>
+        <div class="col-input">
             <label>Tarikh (Mula - Tamat)</label>
-            <div style="display:flex; gap:5px;">
-                <input type="date" id="in_tarikh_mula" title="Tarikh Mula">
-                <span style="align-self:center; font-weight:bold;">-</span>
-                <input type="date" id="in_tarikh_tamat" title="Tarikh Tamat (Jika ada)">
+            <div class="dual-input">
+                <input type="date" id="in_tarikh_mula">
+                <span>-</span>
+                <input type="date" id="in_tarikh_tamat">
             </div>
         </div>
     </div>
-    <div style="display:flex; gap:10px;">
-        <div style="flex:1"><label>Masa</label><input type="text" id="in_masa"></div>
-        <div style="flex:1"><label>Tempat</label><input type="text" id="in_tempat"></div>
+
+    <div class="row-inputs">
+        <div class="col-input">
+            <label>Masa (Mula - Tamat)</label>
+            <div class="dual-input">
+                <input type="time" id="in_masa_mula">
+                <span>-</span>
+                <input type="time" id="in_masa_tamat">
+            </div>
+        </div>
+        <div class="col-input"><label>Tempat</label><input type="text" id="in_tempat"></div>
     </div>
+
     <label>Sasaran</label><input type="text" id="in_sasaran">
     <label>Objektif</label><textarea id="in_objektif"></textarea>
     <label>Ringkasan Aktiviti</label><textarea id="in_aktiviti"></textarea>
@@ -296,19 +309,36 @@
         return dateStr;
     }
 
+    // FORMAT MASA 24H -> 12H (AM/PM)
+    function formatTime(timeStr) {
+        if (!timeStr) return "";
+        var split = timeStr.split(':');
+        var hours = parseInt(split[0]);
+        var minutes = split[1];
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // Jam '0' jadi '12'
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+
     function cetakPDF() {
-        var fields = ['nama', 'anjuran', 'masa', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
+        // MAPPING STANDARD FIELDS
+        var fields = ['nama', 'anjuran', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
         fields.forEach(id => { document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value; });
         
         // PROCESS DATE (Dual Date Logic)
         const dateStart = document.getElementById('in_tarikh_mula').value;
         const dateEnd = document.getElementById('in_tarikh_tamat').value;
         let finalDateDisplay = formatDate(dateStart);
-        
-        if (dateEnd) {
-            finalDateDisplay += " - " + formatDate(dateEnd);
-        }
+        if (dateEnd) { finalDateDisplay += " - " + formatDate(dateEnd); }
         document.getElementById('out_tarikh').innerText = finalDateDisplay;
+
+        // PROCESS TIME (Dual Time Logic)
+        const timeStart = document.getElementById('in_masa_mula').value;
+        const timeEnd = document.getElementById('in_masa_tamat').value;
+        let finalTimeDisplay = formatTime(timeStart);
+        if (timeEnd) { finalTimeDisplay += " - " + formatTime(timeEnd); }
+        document.getElementById('out_masa').innerText = finalTimeDisplay;
 
         // SIGNATURES
         document.getElementById('out_sedia_nama').innerText = "(" + (document.getElementById('in_sedia_nama').value || "                     ") + ")";
