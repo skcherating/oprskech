@@ -28,7 +28,7 @@
         
         label { display: block; font-weight: bold; margin-top: 10px; font-size: 14px; color: #2d3436; }
         input, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #b2bec3; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
-        textarea { height: 60px; resize: none; }
+        textarea { height: 50px; resize: none; } /* Ketinggian dikurangkan sikit untuk jimat ruang skrin */
         
         .section-title { margin-top: 25px; padding-bottom: 5px; border-bottom: 2px solid #0984e3; font-weight: bold; color: #0984e3; font-size: 16px; }
 
@@ -37,7 +37,7 @@
         .col-input { flex: 1; }
         .dual-input { display: flex; gap: 5px; align-items: center; }
 
-        /* Grid Gambar Upload */
+        /* Grid Gambar Upload (9 Kotak) */
         .upload-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
         .upload-box { border: 2px dashed #b2bec3; padding: 5px; text-align: center; background: #f5f6fa; border-radius: 5px; position: relative; }
         .upload-box input { font-size: 10px; width: 100%; }
@@ -55,7 +55,7 @@
             cursor: pointer;
             margin-top: 5px;
             width: 100%;
-            display: none; /* Hidden by default */
+            display: none; 
             font-weight: bold;
         }
         .btn-del-img:hover { background: #d63031; }
@@ -92,14 +92,8 @@
             .logo-cell { width: 20%; text-align: center; }
             
             /* LOGO SIZE */
-            .logo-img-school { 
-                height: 85px; /* Sekolah 85px */
-                width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
-            }
-            .logo-img-ts25 { 
-                height: 65px; /* TS25 65px */
-                width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; 
-            }
+            .logo-img-school { height: 85px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
+            .logo-img-ts25 { height: 65px; width: auto; max-width: 100%; object-fit: contain; display: block; margin: 0 auto; }
 
             /* CONTENT TABLE - FONT 9pt */
             .content-table { 
@@ -117,12 +111,13 @@
             .label-col { background-color: #f0f0f0 !important; font-weight: bold; width: 22%; -webkit-print-color-adjust: exact; }
 
             /* IMAGES SECTION */
-            .pdf-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+            .pdf-images { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
             
             .pdf-img-box { 
-                height: 150px; 
+                height: 75px; /* Ketinggian dikurangkan untuk muat sehingga 9 gambar */
                 border: 1px solid #000; 
-                display: flex; align-items: center; justify-content: center; 
+                display: none; /* Sembunyikan jika tiada gambar (jimat ruang) */
+                align-items: center; justify-content: center; 
                 background: #fff; 
                 overflow: hidden; 
             }
@@ -192,23 +187,45 @@
     <label>Ringkasan Aktiviti</label><textarea id="in_aktiviti"></textarea>
     <label>Kekuatan</label><textarea id="in_kekuatan"></textarea>
     <label>Kelemahan</label><textarea id="in_kelemahan"></textarea>
+    <label>Penambahbaikan (Jika ada)</label><textarea id="in_penambahbaikan"></textarea>
 
-    <div class="section-title">2. Gambar Laporan (Maks 3)</div>
+    <div class="section-title">2. Gambar Laporan (Maks 9)</div>
     <div class="upload-grid">
         <div class="upload-box">
             <input type="file" id="file1" onchange="preview(this, 1)">
-            <img id="prev1">
-            <button id="del1" class="btn-del-img" onclick="hapusGambar(1)">🗑️ Hapus</button>
+            <img id="prev1"><button id="del1" class="btn-del-img" onclick="hapusGambar(1)">🗑️ Hapus</button>
         </div>
         <div class="upload-box">
             <input type="file" id="file2" onchange="preview(this, 2)">
-            <img id="prev2">
-            <button id="del2" class="btn-del-img" onclick="hapusGambar(2)">🗑️ Hapus</button>
+            <img id="prev2"><button id="del2" class="btn-del-img" onclick="hapusGambar(2)">🗑️ Hapus</button>
         </div>
         <div class="upload-box">
             <input type="file" id="file3" onchange="preview(this, 3)">
-            <img id="prev3">
-            <button id="del3" class="btn-del-img" onclick="hapusGambar(3)">🗑️ Hapus</button>
+            <img id="prev3"><button id="del3" class="btn-del-img" onclick="hapusGambar(3)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file4" onchange="preview(this, 4)">
+            <img id="prev4"><button id="del4" class="btn-del-img" onclick="hapusGambar(4)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file5" onchange="preview(this, 5)">
+            <img id="prev5"><button id="del5" class="btn-del-img" onclick="hapusGambar(5)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file6" onchange="preview(this, 6)">
+            <img id="prev6"><button id="del6" class="btn-del-img" onclick="hapusGambar(6)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file7" onchange="preview(this, 7)">
+            <img id="prev7"><button id="del7" class="btn-del-img" onclick="hapusGambar(7)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file8" onchange="preview(this, 8)">
+            <img id="prev8"><button id="del8" class="btn-del-img" onclick="hapusGambar(8)">🗑️ Hapus</button>
+        </div>
+        <div class="upload-box">
+            <input type="file" id="file9" onchange="preview(this, 9)">
+            <img id="prev9"><button id="del9" class="btn-del-img" onclick="hapusGambar(9)">🗑️ Hapus</button>
         </div>
     </div>
 
@@ -282,12 +299,18 @@
         <tr><td class="label-col">Ringkasan Aktiviti</td><td id="out_aktiviti" colspan="3"></td></tr>
         <tr><td class="label-col">Kekuatan</td><td id="out_kekuatan" colspan="3"></td></tr>
         <tr><td class="label-col">Kelemahan</td><td id="out_kelemahan" colspan="3"></td></tr>
-    </table>
+        <tr><td class="label-col">Penambahbaikan</td><td id="out_penambahbaikan" colspan="3"></td></tr> </table>
 
     <div class="pdf-images">
         <div class="pdf-img-box" id="box1"></div>
         <div class="pdf-img-box" id="box2"></div>
         <div class="pdf-img-box" id="box3"></div>
+        <div class="pdf-img-box" id="box4"></div>
+        <div class="pdf-img-box" id="box5"></div>
+        <div class="pdf-img-box" id="box6"></div>
+        <div class="pdf-img-box" id="box7"></div>
+        <div class="pdf-img-box" id="box8"></div>
+        <div class="pdf-img-box" id="box9"></div>
     </div>
 
     <div class="signature-section">
@@ -333,13 +356,13 @@
         if (input.files && input.files[0]) { 
             var reader = new FileReader(); 
             reader.onload = function(e) { 
-                // Tunjuk preview di borang
                 document.getElementById('prev' + index).src = e.target.result; 
                 document.getElementById('prev' + index).style.display = 'block'; 
-                // Tunjuk butang hapus
                 document.getElementById('del' + index).style.display = 'block'; 
-                // Set gambar ke dalam template PDF
-                document.getElementById('box' + index).innerHTML = '<img src="'+e.target.result+'">'; 
+                
+                var pdfBox = document.getElementById('box' + index);
+                pdfBox.innerHTML = '<img src="'+e.target.result+'">'; 
+                pdfBox.style.display = 'flex'; // Munculkan kotak dalam PDF bila ada gambar
             }; 
             reader.readAsDataURL(input.files[0]); 
         } 
@@ -347,20 +370,18 @@
 
     // FUNGSI HAPUS GAMBAR
     function hapusGambar(index) {
-        // Reset input file
         var input = document.getElementById('file' + index);
         input.value = ""; 
         
-        // Sembunyikan preview
         var prev = document.getElementById('prev' + index);
         prev.src = "";
         prev.style.display = 'none';
 
-        // Sembunyikan butang hapus
         document.getElementById('del' + index).style.display = 'none';
 
-        // Kosongkan kotak dalam PDF
-        document.getElementById('box' + index).innerHTML = "";
+        var pdfBox = document.getElementById('box' + index);
+        pdfBox.innerHTML = "";
+        pdfBox.style.display = 'none'; // Sembunyikan semula kotak dalam PDF
     }
     
     // FORMAT TARIKH YYYY-MM-DD -> DD/MM/YYYY
@@ -386,7 +407,8 @@
     }
 
     function cetakPDF() {
-        var fields = ['nama', 'anjuran', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan'];
+        // MAPPING FIELD TERMASUK PENAMBAHBAIKAN
+        var fields = ['nama', 'anjuran', 'tempat', 'sasaran', 'objektif', 'aktiviti', 'kekuatan', 'kelemahan', 'penambahbaikan'];
         fields.forEach(id => { document.getElementById('out_' + id).innerText = document.getElementById('in_' + id).value; });
         
         // PROCESS DATE
